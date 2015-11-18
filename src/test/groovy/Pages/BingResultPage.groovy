@@ -1,8 +1,7 @@
+package Pages
 /**
  * Created by mehmetgerceker on 11/17/15.
  */
-import geb.Page
-
 class BingResultPage extends BingQueryPage {
 
     public static String searchWord;

@@ -1,11 +1,15 @@
+package Spec
 /**
  * Created by mehmetgerceker on 11/17/15.
  */
 
+
+import Pages.BingQueryPage
+import Pages.BingResultPage
 import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 
-class BingSpec extends GebSpec {
+class BingSpec extends SauceBaseSpec {
 
     def setup() {
         //setup goes here
@@ -13,7 +17,6 @@ class BingSpec extends GebSpec {
 
     def cleanup() {
         CachingDriverFactory.clearCache()
-        driver.quit()
     }
 
     def "Search \"hello!\""() {
