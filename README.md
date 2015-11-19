@@ -48,4 +48,5 @@ Individual test outputs will be routed to a log file named after the configurati
 
 ## Known Issues:
 * Concurrency by test method is not available.
+* **gen.saucelabs.capabilities.json** file is not a true json file. It is meant to contain one json object per line and to be terminated with an empty line or line break.
  
