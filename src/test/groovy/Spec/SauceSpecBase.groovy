@@ -2,26 +2,21 @@ package Spec
 
 import com.saucelabs.common.SauceOnDemandAuthentication
 import com.saucelabs.common.SauceOnDemandSessionIdProvider
-import com.saucelabs.junit.ConcurrentParameterized
 import com.saucelabs.junit.SauceOnDemandTestWatcher
 import geb.spock.GebSpec
 import groovy.json.JsonSlurper
-import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
-import org.junit.runner.RunWith
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
-import org.openqa.selenium.remote.CapabilityType
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.remote.RemoteWebDriver
-import spock.lang.Shared
 
 /**
  * Created by mehmetgerceker on 11/18/15.
  */
-class SauceBaseSpec extends GebSpec implements SauceOnDemandSessionIdProvider{
+class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
     public String username = System.getenv("SAUCE_USERNAME")
     public String accesskey = System.getenv("SAUCE_ACCESS_KEY")
 

@@ -7,9 +7,8 @@ package Spec
 import Pages.BingQueryPage
 import Pages.BingResultPage
 import geb.driver.CachingDriverFactory
-import geb.spock.GebSpec
 
-class BingSpec extends SauceBaseSpec {
+class BingSpec extends SauceSpecBase {
 
     def setup() {
         //setup goes here

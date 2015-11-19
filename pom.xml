@@ -14,23 +14,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19</version>
                 <configuration>
-                    <parallel>suitesAndClasses</parallel>
-                    <threadCount>10</threadCount>
-                    <threadCountSuites>10</threadCountSuites>
-                    <threadCountClasses>10</threadCountClasses>
+                    <forkCount>6</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <argLine>-Duser.language=en</argLine>
+                    <argLine>-Xmx1024m</argLine>
+                    <argLine>-Xms256m</argLine>
+                    <argLine>-XX:MaxPermSize=256m</argLine>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <useFile>false</useFile>
                     <includes>
                         <include>*Spec.*</include>
                     </includes>
                     <systemPropertyVariables>
                         <geb.build.reportsDir>target/test-reports/geb</geb.build.reportsDir>
                     </systemPropertyVariables>
-                    <!-- custom listener -->
-                    <!--<properties>
-                        <property>
-                            <name>listener</name>
-                            <value>com.mycompany.MyResultListener,com.mycompany.MyResultListener2</value>
-                        </property>
-                    </properties>-->
                 </configuration>
             </plugin>
             <plugin>

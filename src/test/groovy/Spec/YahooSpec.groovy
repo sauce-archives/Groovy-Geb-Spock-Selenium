@@ -3,16 +3,12 @@ package Spec
 /**
  * Created by mehmetgerceker on 11/17/15.
  */
-
-import Pages.BingQueryPage
 import Pages.BingResultPage
 import Pages.YahooQueryPage
 import Pages.YahooResultPage
 import geb.driver.CachingDriverFactory
-import geb.spock.GebSpec
 
-
-class YahooSpec extends SauceBaseSpec {
+class YahooSpec extends SauceSpecBase {
 
     def setup() {
         //setup goes here
