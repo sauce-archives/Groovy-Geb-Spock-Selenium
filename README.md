@@ -25,6 +25,27 @@ Individual test outputs will be routed to a log file named after the configurati
 * For debug/local runs the test suite will default to Firefox. Use the command below form project root folder to run tests locally.
 <pre>> mvn clean test</pre>
 
+## Parallel Testing Notes:
+
+ The maven surefire fork options enable parallel testing by the test class (spec). You can change the JVM settings listed below to adjust memory allocation and limits and number of processes to be launched. For best results the number of processes should not exceed the number of cores available and the total memory needed for all forks should be less then available memory on test host.
+
+```xml
+                    <forkCount>6</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <argLine>-Duser.language=en</argLine>
+                    <argLine>-Xmx1024m</argLine>
+                    <argLine>-Xms256m</argLine> 
+                    <argLine>-XX:MaxPermSize=256m</argLine>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <useFile>false</useFile>
+```
+
+###Important flags to note:
+
+* forkCount: Number of processes to be forked.
+* Xmx: Max memory to be allocated
+* Xms: Initial memory allocation
+
 ## Known Issues:
-* Concurrency using maven is not available.
+* Concurrency by test method is not available.
  
