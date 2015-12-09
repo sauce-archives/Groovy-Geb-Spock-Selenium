@@ -1,15 +1,40 @@
-Using Sauce Labs with Geb-Spock and Junit
-=========================================
+![alt](https://saucelabs.com/images/sauce-labs-logo.png)
 
-## Setup:
+## Groovy-Geb-Spock-Selenium
 
-* Install [maven](https://maven.apache.org/)
-* Install a recent version of the [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* Set environment variables:
-    * SAUCE_USERNAME=[your user name]
-    * SAUCE_ACCESS_KEY=[your access/api key]
-    
-## Runing Tests:
+>This code is presented as an example only, since your tests and testing environments may require specialized scripting. This information should be taken only as an
+>illustration of how one would set up tests with Sauce Labs, and any modifications will not be supported. For questions regarding Sauce Labs integration, please see 
+>our documentation at https://wiki.saucelabs.com/.
+
+### Environment Setup
+
+1. Global Dependencies
+    * Install Maven
+    	https://maven.apache.org/install.html
+    * Or Install Maven with Homebrew
+    	http://brew.sh/
+    ```
+    $ brew install maven
+    ```
+2. Sauce Credentials
+    * In the terminal export your Sauce Labs Credentials as environmental variables:
+    ```
+    $ export SAUCE_USERNAME=<your Sauce Labs username>
+	$ export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
+    ```
+3. Project Dependencies
+	* Check that Packages are available
+	```
+	$ cd Groovy-Geb-Spock-Selenium
+	$ mvn test-compile
+	```
+	* You may also want to run the command below to check for outdated dependencies. Please be sure to verify and review updates before editing your pom.xml file. The updated packages may or may not be compatible with your code.
+	```
+	$ mvn versions:display-dependency-updates
+	```
+### Running Tests
+
+Tests in Parallel:
 
 * Edit the **gen.saucelabs.capabilities.json** file with the configurations you'd like to run. Each line needs to be a valid json object and the file needs to end with a newline. As shown below. 
 ```json
@@ -17,6 +42,7 @@ Using Sauce Labs with Geb-Spock and Junit
 {"browserName": "Firefox", "platform": "Windows 10", "version": "42"}
 ```
 Please refer to the [Sauce Platform Configurator](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator/) for more information.
+
 * Use the command below from the root of the project.
 ```bash
 ./run.sh
@@ -26,33 +52,26 @@ Individual test outputs will be routed to a log file named after the configurati
 ```bash
 ==> {"browserName": "Firefox", "platform": "Windows 10", "version": "42"}.log
 ```
+
 * For debug/local runs the test suite will default to Firefox. Use the command below form project root folder to run tests locally.
 ```bash 
 mvn clean test
 ```
+[Sauce Labs Dashboard](https://saucelabs.com/beta/dashboard/)
 
-## Parallel Testing Notes:
+### Advice/Troubleshooting
+1. It may be useful to use a Java IDE such as IntelliJ or Eclipse to help troubleshoot potential issues. 
 
- The maven surefire fork options enable parallel testing by the test class (spec). You can change the JVM settings listed below to adjust memory allocation and limits and number of processes to be launched. For best results the number of processes should not exceed the number of cores available and the total memory needed for all forks should be less then available memory on test host.
+### Resources
+##### [Sauce Labs Documentation](https://wiki.saucelabs.com/)
 
-```xml
-                    <forkCount>6</forkCount>
-                    <reuseForks>false</reuseForks>
-                    <argLine>-Duser.language=en</argLine>
-                    <argLine>-Xmx1024m</argLine>
-                    <argLine>-Xms256m</argLine> 
-                    <argLine>-XX:MaxPermSize=256m</argLine>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                    <useFile>false</useFile>
-```
+##### [SeleniumHQ Documentation](http://www.seleniumhq.org/docs/)
 
-###Important flags to note:
+##### [Groovy Documentation](http://www.groovy-lang.org/documentation.html)
 
-* forkCount: Number of processes to be forked.
-* Xmx: Max memory to be allocated
-* Xms: Initial memory allocation
+##### [Spock Documentation](http://spockframework.github.io/spock/docs/1.0/index.html)
 
-## Known Issues:
-* Concurrency by test method is not available.
-* **gen.saucelabs.capabilities.json** file is not a true json file. It is meant to contain one json object per line and to be terminated with an empty line or line break.
- 
+##### [Geb Documentation](http://www.gebish.org/manual/current/)
+
+##### Stack Overflow:
+* [Related Stack Overflow Threads](http://stackoverflow.com/questions/27355003/advise-on-hierarchy-for-element-locators-in-selenium-webdriver)
