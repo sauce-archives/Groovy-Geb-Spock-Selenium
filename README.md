@@ -73,5 +73,4 @@ mvn clean test
 
 ##### [Geb Documentation](http://www.gebish.org/manual/current/)
 
-##### Stack Overflow:
-* [Related Stack Overflow Threads](http://stackoverflow.com/questions/27355003/advise-on-hierarchy-for-element-locators-in-selenium-webdriver)
+##### [Stack Overflow](http://stackoverflow.com/)
