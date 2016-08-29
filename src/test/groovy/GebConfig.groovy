@@ -15,4 +15,5 @@ import org.openqa.selenium.firefox.FirefoxProfile
         new FirefoxDriver(profile)
     }
 }*/
+cacheDriver = false
 driver = {}
