@@ -12,6 +12,8 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.remote.RemoteWebDriver
+import spock.lang.Stepwise
+import spock.lang.Shared
 
 /**
  * Created by mehmetgerceker on 11/18/15.
@@ -45,10 +47,20 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
      */
     private String sessionId
 
+    private static int counter
+
     /**
      * The {@link WebDriver} instance which is used to perform browser interactions with.
      */
     //private WebDriver driver
+
+    private isSpecStepwise() {
+        this.class.getAnnotation(Stepwise) != null
+    }
+
+    public void setupSpec() throws Exception {
+        counter = 0
+    }
 
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(username, accesskey)
 
@@ -99,13 +111,19 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
 
             this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString()
         } else {
-            FirefoxProfile profile = new FirefoxProfile()
-            driver = new FirefoxDriver(profile)
+            if ( counter == 0 | !isSpecStepwise()) {
+                FirefoxProfile profile = new FirefoxProfile()
+                driver = new FirefoxDriver(profile)
+                counter ++
+            }
         }
     }
 
+    @Override
     public void cleanup() throws Exception {
-        driver.quit();
+        if(!isSpecStepwise()) {
+            driver.quit()
+        }
     }
 
 }
