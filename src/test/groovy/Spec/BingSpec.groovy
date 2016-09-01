@@ -10,10 +10,6 @@ import geb.driver.CachingDriverFactory
 
 class BingSpec extends SauceSpecBase {
 
-    def setup() {
-        //setup goes here
-    }
-
     def cleanup() {
         CachingDriverFactory.clearCache()
     }

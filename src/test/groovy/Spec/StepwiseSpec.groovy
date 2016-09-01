@@ -11,13 +11,18 @@ import spock.lang.*
 
 @Stepwise
 class StepwiseSpec extends SauceSpecBase {
+    /*
+     *  Since you are taking over the driver.quit()
+     *  you need to make sure you quit the driver after using it.
+     *  in this instance it is the end of the spec.
+    */
+    @Override
+    def cleanupSpec() {
+        if(driver){
+            CachingDriverFactory.clearCache()
+            driver.quit()
+        }
 
-    def setup() {
-        //setup goes here
-    }
-
-    def cleanup() {
-        // CachingDriverFactory.clearCache()
     }
 
     def "Search \"hello!\""() {
