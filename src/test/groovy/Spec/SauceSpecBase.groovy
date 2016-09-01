@@ -80,9 +80,7 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider {
 
     public void setup() throws Exception {
         Map<String, String> capMap
-
-        String capabilityString = System.getProperty("geb.saucelabs.capabilities")      
-        String driverType = System.getProperty("driverType")
+        String capabilityString = System.getProperty("geb.saucelabs.capabilities")
 
         if (!driverCreated || !isSpecStepwise()) {
             if (capabilityString) {
