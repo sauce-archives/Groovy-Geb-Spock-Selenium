@@ -7,7 +7,7 @@ import Pages.BingResultPage
 import Pages.YahooQueryPage
 import Pages.YahooResultPage
 import geb.driver.CachingDriverFactory
-import spock.lang.*
+import spock.lang.Stepwise
 
 @Stepwise
 class StepwiseSpec extends SauceSpecBase {
