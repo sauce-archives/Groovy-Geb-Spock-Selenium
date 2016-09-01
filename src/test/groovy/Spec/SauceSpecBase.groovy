@@ -84,7 +84,7 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider {
         String capabilityString = System.getProperty("geb.saucelabs.capabilities")      
         String driverType = System.getProperty("driverType")
 
-        if (!driverCreated | !isSpecStepwise()) {
+        if (!driverCreated || !isSpecStepwise()) {
             if (capabilityString) {
                 capMap = new JsonSlurper().parseText(capabilityString)
                 DesiredCapabilities capabilities = new DesiredCapabilities(capMap)
