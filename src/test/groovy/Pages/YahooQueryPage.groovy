@@ -12,7 +12,7 @@ class YahooQueryPage extends Page {
 
     static content = {
         searchField { $("input", name: "p")}
-        searchButton { $("button", id:"search-submit") }
+        searchButton { $("button", id:"uh-search-button") }
     }
 
    void search(String word) {

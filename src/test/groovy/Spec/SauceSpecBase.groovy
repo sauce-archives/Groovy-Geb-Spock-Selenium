@@ -2,23 +2,25 @@ package Spec
 
 import com.saucelabs.common.SauceOnDemandAuthentication
 import com.saucelabs.common.SauceOnDemandSessionIdProvider
-import com.saucelabs.junit.SauceOnDemandTestWatcher
+import com.saucelabs.common.Utils
+import CustomUtils.CustomSauceOnDemandTestWatcher
+import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 import groovy.json.JsonSlurper
 import org.junit.Rule
 import org.junit.rules.TestName
-import org.openqa.selenium.WebDriver
+import org.junit.runner.Description
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.remote.RemoteWebDriver
+import spock.lang.Shared
+import spock.lang.Stepwise
 
-/**
- * Created by mehmetgerceker on 11/18/15.
- */
-class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
+
+class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider {
     public String username = System.getenv("SAUCE_USERNAME")
-    public String accesskey = System.getenv("SAUCE_ACCESS_KEY")
+    public String accessKey = System.getenv("SAUCE_ACCESS_KEY")
 
     /**
      * Represents the browser to be used as part of the test run.
@@ -45,22 +47,22 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
      */
     private String sessionId
 
-    /**
-     * The {@link WebDriver} instance which is used to perform browser interactions with.
-     */
-    //private WebDriver driver
+    private static boolean driverCreated
 
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(username, accesskey)
+    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(username, accessKey)
 
     @Rule
-    public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication)
+    public CustomSauceOnDemandTestWatcher resultReportingTestWatcher = new CustomSauceOnDemandTestWatcher(this, username, accessKey, true) 
 
     @Rule
     public TestName name = new TestName() {
         public String getMethodName() {
-            return super.getMethodName();
-            //return String.format("%s : (%s %s %s)", super.getMethodName(), os, browser, version)
+            return super.getMethodName()
         }
+    }
+
+    private isSpecStepwise() {
+        this.class.getAnnotation(Stepwise) != null
     }
 
     /**
@@ -72,40 +74,42 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider{
         return sessionId
     }
 
+    public void setupSpec() throws Exception {
+        driverCreated = false
+    }
+
     public void setup() throws Exception {
-        Map<String, String> capMap;
+        Map<String, String> capMap
         String capabilityString = System.getProperty("geb.saucelabs.capabilities")
 
-        // capabilityString = '{"browserName": "MicrosoftEdge", "platform": "Windows 10", "version": "20.10240"}'
+        if (!driverCreated || !isSpecStepwise()) {
+            if (capabilityString) {
+                capMap = new JsonSlurper().parseText(capabilityString)
+                DesiredCapabilities capabilities = new DesiredCapabilities(capMap)
+                String methodName = name.getMethodName()
+                String specName = this.class.getSimpleName()
+                if(isSpecStepwise()){
+                    methodName = "All tests in " + specName
+                }
+                capabilities.setCapability("name", String.format("%s.%s", specName, methodName))
+                capabilities.setCapability("newCommandTimeout", 180)
+                driver = new RemoteWebDriver(
+                        new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
+                                "@ondemand.saucelabs.com:80/wd/hub"), capabilities)
 
-        if (capabilityString) {
-            capMap =
-                    new JsonSlurper()
-                            .parseText(capabilityString)
-
-
-
-            DesiredCapabilities capabilities = new DesiredCapabilities(capMap)
-
-            String methodName = name.getMethodName();
-            String specName = this.class.getSimpleName();
-            capabilities.setCapability("name", String.format("%s.%s", specName, methodName));
-
-
-            driver = new RemoteWebDriver(
-                    new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
-                            "@ondemand.saucelabs.com:80/wd/hub"),
-                    capabilities);
-
-            this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString()
-        } else {
-            FirefoxProfile profile = new FirefoxProfile()
-            driver = new FirefoxDriver(profile)
+                this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString()
+            } else {
+                FirefoxProfile profile = new FirefoxProfile()
+                driver = new FirefoxDriver(profile)
+            }
+            driverCreated = true
         }
     }
 
+    @Override
     public void cleanup() throws Exception {
-        driver.quit();
+        if(!isSpecStepwise()){
+            driver.quit()
+        }
     }
-
 }
