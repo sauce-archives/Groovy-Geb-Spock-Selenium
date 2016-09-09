@@ -32,31 +32,22 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
 
 Tests in Parallel:
 
-* Edit the **gen.saucelabs.capabilities.json** file with the configurations you'd like to run. Each line needs to be a valid json object and the file needs to end with a newline. As shown below. 
-```json
-{"browserName": "MicrosoftEdge", "platform": "Windows 10", "version": "20.10240"}
-{"browserName": "Firefox", "platform": "Windows 10", "version": "42"}
-```
 Please refer to the [Sauce Platform Configurator](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator/) for more information.
 
 * Use the command below from the root of the project.
 ```bash
-./run.sh
-```
-It will run the tests in your project with each of the configurations listed concurrently by configuration. i.e. all configurations will run at the same time. 
-Individual test outputs will be routed to a log file named after the configuration in the project root folder. 
-```bash
-==> {"browserName": "Firefox", "platform": "Windows 10", "version": "42"}.log
+make
 ```
 
 * For debug/local runs the test suite will default to Firefox. Use the command below form project root folder to run tests locally.
-```bash 
+```bash
 mvn clean test
 ```
+
 [Sauce Labs Dashboard](https://saucelabs.com/beta/dashboard/)
 
 ### Advice/Troubleshooting
-1. It may be useful to use a Java IDE such as IntelliJ or Eclipse to help troubleshoot potential issues. 
+1. It may be useful to use a Java IDE such as IntelliJ or Eclipse to help troubleshoot potential issues.
 
 ### Resources
 ##### [Sauce Labs Documentation](https://wiki.saucelabs.com/)
