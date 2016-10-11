@@ -52,7 +52,7 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider {
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(username, accessKey)
 
     @Rule
-    public CustomSauceOnDemandTestWatcher resultReportingTestWatcher = new CustomSauceOnDemandTestWatcher(this, username, accessKey, true) 
+    public CustomSauceOnDemandTestWatcher resultReportingTestWatcher = new CustomSauceOnDemandTestWatcher(this, username, accessKey, true)
 
     @Rule
     public TestName name = new TestName() {
@@ -94,8 +94,8 @@ class SauceSpecBase extends GebSpec implements SauceOnDemandSessionIdProvider {
                 capabilities.setCapability("name", String.format("%s.%s", specName, methodName))
                 capabilities.setCapability("newCommandTimeout", 180)
                 driver = new RemoteWebDriver(
-                        new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
-                                "@ondemand.saucelabs.com:80/wd/hub"), capabilities)
+                        new URL("https://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
+                                "@ondemand.saucelabs.com:443/wd/hub"), capabilities)
 
                 this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString()
             } else {
