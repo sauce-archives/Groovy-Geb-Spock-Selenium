@@ -22,24 +22,23 @@ environments {
             String username = System.getenv("SAUCE_USERNAME");
             String accessKey = System.getenv("SAUCE_ACCESS_KEY");
 
-//        ChromeOptions chromeOpts = new ChromeOptions();
-//        chromeOpts.setExperimentalOption("w3c", true);
-//
-//        MutableCapabilities sauceOpts = new MutableCapabilities();
-//        sauceOpts.setCapability("seleniumVersion", "3.141.1");
-//        sauceOpts.setCapability("user", username);
-//        sauceOpts.setCapability("accessKey", accessKey);
-//
+            ChromeOptions chromeOpts = new ChromeOptions();
+            chromeOpts.setExperimentalOption("w3c", true);
+
+            MutableCapabilities sauceOpts = new MutableCapabilities();
+            sauceOpts.setCapability("seleniumVersion", "3.141.1");
+            sauceOpts.setCapability("username", username);
+            sauceOpts.setCapability("accessKey", accessKey);
+
             DesiredCapabilities caps = new DesiredCapabilities();
-//        caps.setCapability(ChromeOptions.CAPABILITY, chromeOpts);
-//        caps.setCapability("sauce:options", sauceOpts);
+            caps.setCapability(ChromeOptions.CAPABILITY, chromeOpts);
+            caps.setCapability("sauce:options", sauceOpts);
             caps.setCapability("browserName", "googlechrome");
             caps.setCapability("browserVersion", "71.0");
             caps.setCapability("platformName", "windows 10");
 
-            URL url = new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub")
+            URL url = new URL("https://ondemand.saucelabs.com:443/wd/hub")
 
-//            new RemoteWebDriver(url, capabilities)
             new RemoteWebDriver(url, caps)
         }
     }
