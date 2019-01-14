@@ -5,39 +5,68 @@
 */
 
 
+import org.openqa.selenium.MutableCapabilities
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.remote.RemoteWebDriver
 
 waiting {
-	timeout = 2
+    timeout = 2
 }
 
 environments {
-	
-	// run via “./gradlew chromeTest”
-	// See: http://code.google.com/p/selenium/wiki/ChromeDriver
-	chrome {
-		driver = { new ChromeDriver() }
-	}
+    sauce {
+        driver = {
+            String username = System.getenv("SAUCE_USERNAME");
+            String accessKey = System.getenv("SAUCE_ACCESS_KEY");
 
-	// run via “./gradlew chromeHeadlessTest”
-	// See: http://code.google.com/p/selenium/wiki/ChromeDriver
-	chromeHeadless {
-		driver = {
-			ChromeOptions o = new ChromeOptions()
-			o.addArguments('headless')
-			new ChromeDriver(o)
-		}
-	}
-	
-	// run via “./gradlew firefoxTest”
-	// See: http://code.google.com/p/selenium/wiki/FirefoxDriver
-	firefox {
-		atCheckWaiting = 1
+//        ChromeOptions chromeOpts = new ChromeOptions();
+//        chromeOpts.setExperimentalOption("w3c", true);
+//
+//        MutableCapabilities sauceOpts = new MutableCapabilities();
+//        sauceOpts.setCapability("seleniumVersion", "3.141.1");
+//        sauceOpts.setCapability("user", username);
+//        sauceOpts.setCapability("accessKey", accessKey);
+//
+            DesiredCapabilities caps = new DesiredCapabilities();
+//        caps.setCapability(ChromeOptions.CAPABILITY, chromeOpts);
+//        caps.setCapability("sauce:options", sauceOpts);
+            caps.setCapability("browserName", "googlechrome");
+            caps.setCapability("browserVersion", "71.0");
+            caps.setCapability("platformName", "windows 10");
 
-		driver = { new FirefoxDriver() }
-	}
+            URL url = new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub")
+
+//            new RemoteWebDriver(url, capabilities)
+            new RemoteWebDriver(url, caps)
+        }
+    }
+
+    // run via “./gradlew chromeTest”
+    // See: http://code.google.com/p/selenium/wiki/ChromeDriver
+    chrome {
+        driver = { new ChromeDriver() }
+    }
+
+    // run via “./gradlew chromeHeadlessTest”
+    // See: http://code.google.com/p/selenium/wiki/ChromeDriver
+    chromeHeadless {
+        driver = {
+            ChromeOptions o = new ChromeOptions()
+            o.addArguments('headless')
+            new ChromeDriver(o)
+        }
+    }
+
+    // run via “./gradlew firefoxTest”
+    // See: http://code.google.com/p/selenium/wiki/FirefoxDriver
+    firefox {
+        atCheckWaiting = 1
+
+        driver = { new FirefoxDriver() }
+    }
 
 }
 
