@@ -1,5 +1,5 @@
 class AddOneToCartSpec extends BasePageGebSpec {
-    def "adds one"() {
+    def "Adds One to Cart"() {
         given:
         go "http://www.saucedemo.com/inventory.html"
 
@@ -16,7 +16,7 @@ class AddOneToCartSpec extends BasePageGebSpec {
         $(".inventory_item_name").size() == 1
     }
 
-    def "adds two"() {
+    def "Adds Two to Cart"() {
         given:
         go "http://www.saucedemo.com/inventory.html"
 

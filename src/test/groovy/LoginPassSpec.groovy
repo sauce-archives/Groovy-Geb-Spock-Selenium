@@ -1,6 +1,6 @@
 class LoginPassSpec extends BasePageGebSpec {
 
-    def "can get to the current Book of Geb"() {
+    def "Logs In Successfully"() {
         given:
         go "http://www.saucedemo.com"
 

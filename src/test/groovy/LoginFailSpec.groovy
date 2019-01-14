@@ -1,6 +1,6 @@
 class LoginFailSpec extends BasePageGebSpec {
 
-    def "can get to the current Book of Geb"() {
+    def "Logs In Unsuccessfully"() {
         given:
         go "http://www.saucedemo.com"
 
